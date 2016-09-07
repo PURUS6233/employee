@@ -2,14 +2,13 @@ package main.java.employee;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 /**
- * Alex
  * java -jar employee_task.jar C:\OUTPUT.TXT
- * 
  */
 
 public class Task {
@@ -32,12 +31,34 @@ public class Task {
 		employees.add(new EmployeeFixedRate("Andrey", 8000));
 		Collections.sort(employees, new EmployeeComparator());
 
-		Task task = new Task();
-
-		task.printFirstFiveEmployee(employees);
+		Collection<Employee> fromBeginningEmployee = EmployeeUtils.getFromBeginning(employees, 3);
+		for (Employee employee : fromBeginningEmployee) {
+			System.out.println(employee);
+		}
 		System.out.println();
-		task.printLastFiveEmployee(employees);
+		Collection<Employee> fromEndEmployee = EmployeeUtils.getFromEnd(employees, 2);
+		for (Employee employee : fromEndEmployee) {
+			System.out.println(employee);
+		}
+		System.out.println("While");
+		Collection<Employee> fromBeginning = EmployeeUtils.getFromBeginningWhile(employees, 3);
+		for (Employee employee : fromBeginning) {
+			System.out.println(employee);
+		}
 		System.out.println();
+		Collection<Employee> fromEnd = EmployeeUtils.getFromEndWhile(employees, 2);
+		for (Employee employee : fromEnd) {
+			System.out.println(employee);
+		}
+		EmployeeUtils utils = new EmployeeUtils();
+		
+		Collection<Employee> filterEmployeeName = utils.filter(employees, "pA");
+		for (Employee employee : filterEmployeeName) {
+			System.out.println(employee);
+		}
+		
+		Employee filterEmployeeId = utils.filter(employees, 4);
+		System.out.println(filterEmployeeId);
 		
 		FileHelper.writeResultToFile(pathToFile, employees);
 		
@@ -46,18 +67,6 @@ public class Task {
 		System.out.println("Evaluation ends in:" + new Date());
 		
 	}
-
-	public void printFirstFiveEmployee(List<Employee> workers) {
-		for (int i = 0; i < 5; i++) {
-			System.out.println(workers.get(i).toString());
-		}
-	}
-
-	public void printLastFiveEmployee(List<Employee> workers) {
-		for (int i = workers.size() - 1; i > workers.size() - 1 - 3; i--) {
-			System.out.println(workers.get(i).toString());
-		}
-	}	
 	
 	private static boolean readAndValidateParams(String[] args) {
 		// length check
